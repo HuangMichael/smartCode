@@ -106,7 +106,7 @@ public class BuilderUtil {
         return className;
     }
 
-
+/*
     public static void main(String args[]) {
 
         String className = "person";
@@ -117,5 +117,5 @@ public class BuilderUtil {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

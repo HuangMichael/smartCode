@@ -17,7 +17,7 @@ import java.io.StringWriter;
 public class ServiceBuilderUtil {
 
     private static final String TEMPLATE_VM_PATH = "templates/codeBuilder/model/Service.vm";
-    private static final String PACKAGE_PATH = "E:/smartCode/src/main/java/com/bill/service/person/";
+    private static final String PACKAGE_PATH = "E:/smartCode/src/main/java/com/bill/service/";
     private static final String SUFFIX = ".java";
 
 
@@ -26,17 +26,17 @@ public class ServiceBuilderUtil {
      *
      * @throws Exception
      */
-    public void createFile(String className,String fileType) throws Exception {
-        String fileName = PACKAGE_PATH + className;
+    public void createFile(String className, String fileType) throws Exception {
+        String fileName = PACKAGE_PATH + className.toLowerCase() + "/";
         File file = new File(fileName);
         if (!file.exists()) {
             file.mkdir();
         }
-        fileName = className + fileType + SUFFIX;
+        fileName = className.toLowerCase() + "/" + className + fileType + SUFFIX;
         File file1 = new File(fileName);
         System.out.println("fileName-----------------" + fileName);
         System.out.println("file1-----------------" + file1.getAbsolutePath());
-        FileWriter fw = new FileWriter(PACKAGE_PATH+fileName);
+        FileWriter fw = new FileWriter(PACKAGE_PATH + fileName);
         fw.write(createCode(TEMPLATE_VM_PATH));
         fw.flush();
         fw.close();
@@ -97,16 +97,16 @@ public class ServiceBuilderUtil {
         return className;
     }
 
-
+/*
     public static void main(String args[]) {
 
         String className = "Person";
         ServiceBuilderUtil serviceBuilderUtil = new ServiceBuilderUtil();
         try {
-            serviceBuilderUtil.createFile(className,"Service");
+            serviceBuilderUtil.createFile(className, "Service");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

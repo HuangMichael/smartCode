@@ -25,16 +25,16 @@ public class RepositoryBuilderUtil {
      * @throws Exception
      */
     public void createFile(String className) throws Exception {
-        String fileName = PACKAGE_PATH + className;
+        String fileName = PACKAGE_PATH + className.toLowerCase() + "/";
         File file = new File(fileName);
         if (!file.exists()) {
             file.mkdir();
         }
-        fileName = className + "Repository" + SUFFIX;
+        fileName = className.toLowerCase() + "/" + className + "Repository" + SUFFIX;
         File file1 = new File(fileName);
         System.out.println("fileName-----------------" + fileName);
         System.out.println("file1-----------------" + file1.getAbsolutePath());
-        FileWriter fw = new FileWriter(PACKAGE_PATH+fileName);
+        FileWriter fw = new FileWriter(PACKAGE_PATH + fileName);
         fw.write(createCode(TEMPLATE_VM_PATH));
         fw.flush();
         fw.close();
@@ -95,7 +95,7 @@ public class RepositoryBuilderUtil {
         return className;
     }
 
-
+/*
     public static void main(String args[]) {
 
         String className = "Person";
@@ -106,5 +106,5 @@ public class RepositoryBuilderUtil {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

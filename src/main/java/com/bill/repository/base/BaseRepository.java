@@ -1,4 +1,4 @@
-package com.bill.repository;
+package com.bill.repository.base;
 
 import org.springframework.stereotype.Repository;
 

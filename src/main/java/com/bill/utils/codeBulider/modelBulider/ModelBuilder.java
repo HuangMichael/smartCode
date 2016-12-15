@@ -179,9 +179,9 @@ public class ModelBuilder {
         return author;
     }
 
-    /**
+   /* *//**
      * @param args
-     */
+     *//*
     public static void main(String[] args) {
         ModelBuilder mb = new ModelBuilder();
         try {
@@ -192,5 +192,5 @@ public class ModelBuilder {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
