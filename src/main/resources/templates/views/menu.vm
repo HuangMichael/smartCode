@@ -1,0 +1,75 @@
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-menu nav-collapse">
+        <div class="divide-20"></div>
+        <!-- SEARCH BAR -->
+        <div id="search-bar">
+            <input class="search" type="text" placeholder="搜索应用"><i class="fa fa-search search-icon"></i>
+        </div>
+        <!-- /SEARCH BAR -->
+        <ul id="menuContainer">
+            <template v-for='item in menus'>
+                <li class="has-sub" v-on:click='toggleChildren(item)'>
+                    <a href="javascript:;" class="">
+                        <i class="{{item.resourceIcon}}" v-if='!item.children'></i> <span>{{item.resourceName}}</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub">
+                        <li v-for='child in item.resourceList' onclick="loadPage()" data-url="{{child.resourceUrl}}"  role="menu"><a class=""><span class="sub-menu-text">{{child.resourceName}}</span></a>
+                        </li>
+                    </ul>
+                </li>
+            </template>
+        </ul>
+    </div>
+</div>
+<script src="js/jquery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/vue/vue.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $.ajaxSettings.async = false;
+        var menus = loadMenus();
+        var sideBar = new Vue({
+            el: "#menuContainer",
+            data: {
+                menus: menus,
+            },
+            methods: {
+                toggleChildren: function (item) {
+                    item.expanded = !item.expanded;
+                },
+            }
+        });
+
+
+        jQuery("li[role='menu']").on("click", function () {
+            console.log("load page----" + $(this).data("url"));
+            var url = $(this).data("url");
+            if(url){
+                $("#content").load(url);
+            }
+        });
+
+        /**
+         *载入菜单
+         * */
+        function loadMenus() {
+            var menus = [];
+            var url = "/resourceData/findMenus/1";
+            jQuery.getJSON(url, function (data) {
+                menus = data;
+            });
+            return menus;
+        }
+
+
+    });
+
+    /**
+     * 载入页面
+     */
+    function loadPage() {
+        console.log("page is loading------");
+    }
+
+</script>
