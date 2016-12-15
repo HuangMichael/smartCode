@@ -24,7 +24,7 @@ public class DBUtil {
             in = new BufferedInputStream(DBUtil.class.getResourceAsStream("/application.properties"));
             Properties p = new Properties();
             p.load(in);
-            driverClassName = p.getProperty("spring.datasource.driver-class-name");
+            driverClassName = p.getProperty("spring.datasource.driverClassName");
             url = p.getProperty("spring.datasource.url");
             dbUsername = p.getProperty("spring.datasource.username");
             dbPassword = p.getProperty("spring.datasource.password");

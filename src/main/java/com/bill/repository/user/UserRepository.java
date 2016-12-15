@@ -1,11 +1,8 @@
 package com.bill.repository.user;
 
 import com.bill.domain.user.User;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.cache.annotation.*;
+import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**

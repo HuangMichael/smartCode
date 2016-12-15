@@ -1,0 +1,19 @@
+package com.bill.service.${tableName};
+
+import com.bill.domain.${tableName}.${className};
+import com.bill.repository.*;
+import org.springframework.*;
+
+/**
+* Created by huangbin on 16-12-10.
+* 应用业务类
+*/
+@Service
+public class ${className}Service extends BaseService {
+@Autowired
+${className}Repository ${tableName}Repository;
+
+
+
+
+}

@@ -1,0 +1,18 @@
+package com.bill.repository.${tableName};
+
+import com.bill.domain.${tableName}.${className};
+import org.springframework.cache.annotation.*;
+import org.springframework.data.repository.*;
+import org.springframework.stereotype.Repository;
+
+/**
+* Created by huangbin on 16-12-10.
+* 数据库访问接口
+*/
+
+@Repository
+@CacheConfig(cacheNames = "${tableName}sCache")
+public interface ${className}Repository extends CrudRepository<${className}, Long>, PagingAndSortingRepository<${className}, Long> {
+
+
+}

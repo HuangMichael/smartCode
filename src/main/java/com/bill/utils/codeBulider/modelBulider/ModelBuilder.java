@@ -21,23 +21,21 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * model生成器
- * 读取数据表，封装table Info和column Info
- * 读取modelVM 生成代码
- * Created by zyb on 2016/11/16.
+ *
  */
-public class ModelBulider {
+public class ModelBuilder {
 
     /**
      * modelVM路径
      */
-    private java.lang.String modelVMPath = "templates/codeBulider/model/ModelTemplateWithJPA.vm";
+    private java.lang.String modelVMPath = "templates\\codeBuilder\\model\\ModelTemplateWithJPA.vm";
 
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
 
 
-    private void createFile(String packagePath ,String tableName) throws Exception {
+    private void createFile(String packagePath, String tableName) throws Exception {
         FileWriter fw = null;
         String fileName = packagePath.endsWith(File.separator) ? packagePath + SpellUtil.toPascalCase(tableName) +
                 Constant.suffix : packagePath + File.separator + SpellUtil.toPascalCase(tableName) + Constant.suffix;
@@ -84,6 +82,7 @@ public class ModelBulider {
 
     /**
      * 封装数据表信息
+     *
      * @param tableName
      * @return
      */
@@ -95,25 +94,25 @@ public class ModelBulider {
             DatabaseMetaData metaData = jdbcTemplate.getDataSource().getConnection().getMetaData();
             ResultSet colrs = metaData.getColumns(null, null, tableName, "%");
             ResultSet pkrs = metaData.getPrimaryKeys(null, null, tableName);
-            Map<String,ColumnInfo> columnInfos = new HashMap<String,ColumnInfo>();
-            Map<String,ColumnInfo> primaryKeys = new HashMap<String,ColumnInfo>();
+            Map<String, ColumnInfo> columnInfos = new HashMap<String, ColumnInfo>();
+            Map<String, ColumnInfo> primaryKeys = new HashMap<String, ColumnInfo>();
             while (pkrs.next()) {
                 String columnName = pkrs.getString("COLUMN_NAME");//列名
                 //由于getprimarykeys得到的主键不包含列类型，描述等信息，故此处仅获取列名，通过getcolumns得到的信息重新封装
                 ColumnInfo columnInfo = new ColumnInfo();
-                primaryKeys.put(columnName,columnInfo);
+                primaryKeys.put(columnName, columnInfo);
             }
             while (colrs.next()) {
                 String columnName = colrs.getString("COLUMN_NAME");//列名
                 ColumnInfo columnInfo = getColumnInfo(colrs, columnName);
                 if (primaryKeys.get(columnName) == null) {
-                    columnInfos.put(columnName,columnInfo);
-                }else{
-                    primaryKeys.put(columnName,columnInfo);
+                    columnInfos.put(columnName, columnInfo);
+                } else {
+                    primaryKeys.put(columnName, columnInfo);
                 }
             }
             tableInfo.setPrimaryKeys(primaryKeys);
-            tableInfo.setColumnInfos(columnInfos);
+            tableInfo.setColumnInfo(columnInfos);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,6 +122,7 @@ public class ModelBulider {
 
     /**
      * 解析result set并封装
+     *
      * @param rs
      * @param columnName
      * @return
@@ -131,10 +131,9 @@ public class ModelBulider {
     private ColumnInfo getColumnInfo(ResultSet rs, String columnName) throws SQLException {
         ColumnInfo columnInfo = new ColumnInfo();
         int dataType = rs.getInt("DATA_TYPE"); //对应的java.sql.Types类型
-//                String dataTypeName = rs.getString("TYPE_NAME");//java.sql.Types类型   名称
         String remarks = rs.getString("REMARKS");//列描述
         columnInfo.setColumnName(columnName);
-        columnInfo.setColmunDescription(remarks);
+        columnInfo.setColumnDesc(remarks);
         columnInfo.setColumnType(dataType);
         columnInfo.setFieldType(transferColumnType(dataType));
         columnInfo.setFieldName(SpellUtil.toCamelCase(columnName));
@@ -144,12 +143,13 @@ public class ModelBulider {
 
     /**
      * 从DB类型转换成java类型
+     *
      * @param dataType
      * @return
      */
     private String transferColumnType(int dataType) {
         String columnType = "java.lang.String";
-        switch (dataType){
+        switch (dataType) {
             case Types.DOUBLE:
                 columnType = "java.lang.Double";
                 break;
@@ -179,14 +179,18 @@ public class ModelBulider {
         return author;
     }
 
-   /* public static void main(String[] args) {
-        ModelBulider mb = new ModelBulider();
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        ModelBuilder mb = new ModelBuilder();
         try {
-            String packagePath = "src/main/java/com/sccl/YbZ/springboot/model/entity/";
-            mb.createFile(packagePath,"user");
+            String packagePath = "src\\main\\java\\com\\bill\\repository\\person";
+            String className = "person";
+            mb.createFile(packagePath, className);
             System.out.println("done");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }

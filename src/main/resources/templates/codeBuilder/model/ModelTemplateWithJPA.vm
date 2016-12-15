@@ -1,0 +1,23 @@
+package com.bill.domain.${tableInfo.tableName};
+
+import javax.persistence.*;
+import lombok.Data;
+import java.lang.*;
+
+/**
+* ${tableInfo.tableName}
+* Created by huangbin on ${date}.
+*/
+@Data
+@Entity
+@Table(name="${tableInfo.tableName}")
+public class ${tableInfo.className}{
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+
+#foreach( $col in $tableInfo.columnInfo.entrySet() )
+    private $col.value.fieldType $col.value.fieldName;
+#end
+
+}
