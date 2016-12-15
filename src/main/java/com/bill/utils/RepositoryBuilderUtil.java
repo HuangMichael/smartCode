@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class RepositoryBuilderUtil {
 
-    private static final String TEMPLATE_VM_PATH = "templates/codeBuilder/model/ModelTemplateRepository.vm";
+    private static final String TEMPLATE_VM_PATH = "templates/coder/java/Repository.vm";
     private static final String PACKAGE_PATH = "E:/smartCode/src/main/java/com/bill/repository/person/";
     private static final String SUFFIX = ".java";
 

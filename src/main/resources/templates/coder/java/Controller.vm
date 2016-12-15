@@ -1,0 +1,26 @@
+package com.bill.controller.${tableName};
+
+import com.bill.controller.BaseController;
+import com.bill.domain.${tableName}.${className};
+import com.bill.service.${tableName}.${className}Service;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Random;
+
+@Controller
+@EnableAutoConfiguration
+@Data
+@RequestMapping("/${tableName}")
+public class ${className}Controller extends BaseController {
+
+@Autowired
+${className}Service ${tableName}Service;
+String mainObject = "${tableName}";
+
+}

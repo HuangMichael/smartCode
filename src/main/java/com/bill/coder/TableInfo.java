@@ -1,4 +1,4 @@
-package com.bill.model.codeBulider;
+package com.bill.coder;
 
 import lombok.Data;
 

@@ -2,8 +2,8 @@ package com.bill.utils.codeBulider.modelBulider;
 
 import com.bill.common.Constant;
 import com.bill.utils.codeBulider.DBUtil;
-import com.bill.model.codeBulider.ColumnInfo;
-import com.bill.model.codeBulider.TableInfo;
+import com.bill.coder.ColumnInfo;
+import com.bill.coder.TableInfo;
 import com.bill.utils.SpellUtil;
 import com.bill.utils.TimeUtil;
 import org.apache.velocity.Template;
@@ -30,7 +30,7 @@ public class ModelBuilder {
     /**
      * modelVM路径
      */
-    private java.lang.String modelVMPath = "templates\\codeBuilder\\model\\ModelTemplateWithJPA.vm";
+    private java.lang.String modelVMPath = "templates\\codeBuilder\\model\\Domain.vm";
 
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
 

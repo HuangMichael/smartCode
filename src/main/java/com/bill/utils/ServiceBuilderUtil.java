@@ -16,7 +16,7 @@ import java.io.StringWriter;
  */
 public class ServiceBuilderUtil {
 
-    private static final String TEMPLATE_VM_PATH = "templates/codeBuilder/model/Service.vm";
+    private static final String TEMPLATE_VM_PATH = "templates/coder/java/Service.vm";
     private static final String PACKAGE_PATH = "E:/smartCode/src/main/java/com/bill/service/";
     private static final String SUFFIX = ".java";
 
