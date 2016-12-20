@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @EnableAutoConfiguration
 @Data
@@ -39,12 +41,8 @@ public class HelloController extends BaseDataController {
     public Iterable<Resource> findResources() {
         log.info("查询所有的资源resources----------------");
         Iterable<Resource> resources = resourceService.findMenus(1l);
-        redisUtil.setList("resources", resources);
-        Boolean exists = redisUtil.exists("resources");
-        System.out.println("menus exists-------------" + exists);
         return resources;
     }
-
 
     /**
      * @return
@@ -54,23 +52,18 @@ public class HelloController extends BaseDataController {
     public Iterable<User> findUsers() {
         log.info("查询所有的user资源----------------");
         Iterable<User> users = userService.findAll();
-        redisUtil.setList("users", users);
-        Boolean exists = redisUtil.exists("users");
-        System.out.println("users exists-------------" + exists);
         return users;
     }
-
 
     /**
      * @return
      */
-    @RequestMapping("/users/{userName}")
+    @RequestMapping("/delete/{id}")
     @ResponseBody
-    public Iterable<User> findByUserName(@PathVariable String userName) {
-        log.info("查询所有的user资源----------------");
-        Iterable<User> usersList = userService.findByUserName(userName);
-        return usersList;
+    public String delete(@PathVariable Long id) {
+        log.info("删除----------------"+id);
+        userService.delete(id);
+        return "删除成功";
     }
-
 
 }

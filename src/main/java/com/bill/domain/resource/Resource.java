@@ -11,7 +11,7 @@ import java.util.List;
  * Created by huangbin on 16-12-10.
  */
 @Entity
-@Table(name = "t_resource")
+@Table(name = "resource")
 @Data
 public class Resource implements Serializable {
 

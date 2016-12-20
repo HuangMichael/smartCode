@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @SpringBootApplication
 @EnableCaching
-public class Application {
+public class SmartCodeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(SmartCodeApplication.class,args);
     }
 }

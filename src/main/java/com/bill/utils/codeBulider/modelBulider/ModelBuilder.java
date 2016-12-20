@@ -12,6 +12,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.sql.DatabaseMetaData;
@@ -23,19 +24,21 @@ import java.util.Map;
 
 
 /**
- *
+ * model类生成器
  */
+
+@Component
 public class ModelBuilder {
 
     /**
      * modelVM路径
      */
-    private java.lang.String modelVMPath = "templates\\codeBuilder\\model\\Domain.vm";
+    private java.lang.String modelVMPath = "templates/coder/java/Domain.vm";
 
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(DBUtil.getDataSource());
 
 
-    private void createFile(String packagePath, String tableName) throws Exception {
+    public void createFile(String packagePath, String tableName) throws Exception {
         FileWriter fw = null;
         String fileName = packagePath.endsWith(File.separator) ? packagePath + SpellUtil.toPascalCase(tableName) +
                 Constant.suffix : packagePath + File.separator + SpellUtil.toPascalCase(tableName) + Constant.suffix;
@@ -92,27 +95,26 @@ public class ModelBuilder {
         tableInfo.setClassName(SpellUtil.toPascalCase(tableName));
         try {
             DatabaseMetaData metaData = jdbcTemplate.getDataSource().getConnection().getMetaData();
-            ResultSet colrs = metaData.getColumns(null, null, tableName, "%");
-            ResultSet pkrs = metaData.getPrimaryKeys(null, null, tableName);
-            Map<String, ColumnInfo> columnInfos = new HashMap<String, ColumnInfo>();
+            ResultSet columns = metaData.getColumns(null, null, tableName, "%");
+            ResultSet primaryKeysResultSet = metaData.getPrimaryKeys(null, null, tableName);
+            Map<String, ColumnInfo> columnInfoMap = new HashMap<String, ColumnInfo>();
             Map<String, ColumnInfo> primaryKeys = new HashMap<String, ColumnInfo>();
-            while (pkrs.next()) {
-                String columnName = pkrs.getString("COLUMN_NAME");//列名
-                //由于getprimarykeys得到的主键不包含列类型，描述等信息，故此处仅获取列名，通过getcolumns得到的信息重新封装
+            while (primaryKeysResultSet.next()) {
+                String columnName = primaryKeysResultSet.getString("COLUMN_NAME");//列名
                 ColumnInfo columnInfo = new ColumnInfo();
                 primaryKeys.put(columnName, columnInfo);
             }
-            while (colrs.next()) {
-                String columnName = colrs.getString("COLUMN_NAME");//列名
-                ColumnInfo columnInfo = getColumnInfo(colrs, columnName);
+            while (columns.next()) {
+                String columnName = columns.getString("COLUMN_NAME");//列名
+                ColumnInfo columnInfo = getColumnInfo(columns, columnName);
                 if (primaryKeys.get(columnName) == null) {
-                    columnInfos.put(columnName, columnInfo);
+                    columnInfoMap.put(columnName, columnInfo);
                 } else {
                     primaryKeys.put(columnName, columnInfo);
                 }
             }
             tableInfo.setPrimaryKeys(primaryKeys);
-            tableInfo.setColumnInfo(columnInfos);
+            tableInfo.setColumnInfo(columnInfoMap);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -178,19 +180,4 @@ public class ModelBuilder {
         String author = System.getProperty("user.name");
         return author;
     }
-
-   /* *//**
-     * @param args
-     *//*
-    public static void main(String[] args) {
-        ModelBuilder mb = new ModelBuilder();
-        try {
-            String packagePath = "src\\main\\java\\com\\bill\\repository\\person";
-            String className = "person";
-            mb.createFile(packagePath, className);
-            System.out.println("done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 @Data
 @EnableAutoConfiguration
 public class BaseController {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    Logger log = LoggerFactory.getLogger(this.getClass());
     private String mainObject = "";
     private Boolean viewOverride = false;
     private String viewPath = "/views/";

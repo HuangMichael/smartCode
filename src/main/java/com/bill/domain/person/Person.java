@@ -10,7 +10,7 @@ import java.lang.*;
 */
 @Data
 @Entity
-@Table(name="t_person")
+@Table(name="person")
 public class Person{
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)

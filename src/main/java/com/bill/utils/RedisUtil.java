@@ -1,23 +1,20 @@
 package com.bill.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * redicache 工具类
@@ -26,123 +23,43 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtil extends CachingConfigurerSupport {
     @SuppressWarnings("rawtypes")
-    @Autowired
-    private RedisTemplate redisTemplate;
 
 
-    /**
-     * 批量删除对应的value
-     *
-     * @param keys
-     */
-    public void remove(final String... keys) {
-        for (String key : keys) {
-            remove(key);
-        }
+    @Bean
+    public KeyGenerator billKeyGenerator(){
+        return new KeyGenerator() {
+            @Override
+            public Object generate(Object target, Method method, Object... params) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(target.getClass().getName());
+                sb.append(method.getName());
+                for (Object obj : params) {
+                    sb.append(obj.toString());
+                }
+                return sb.toString();
+            }
+        };
+
     }
 
-    /**
-     * 批量删除key
-     *
-     * @param pattern
-     */
-    public void removePattern(final String pattern) {
-        Set<Serializable> keys = redisTemplate.keys(pattern);
-        if (keys.size() > 0)
-            redisTemplate.delete(keys);
+    @Bean
+    public CacheManager cacheManager( RedisTemplate redisTemplate) {
+        return new RedisCacheManager(redisTemplate);
     }
 
-    /**
-     * 删除对应的value
-     *
-     * @param key
-     */
-    public void remove(final String key) {
-        if (exists(key)) {
-            redisTemplate.delete(key);
-        }
-    }
-
-    /**
-     * 判断缓存中是否有对应的value
-     *
-     * @param key
-     * @return
-     */
-    public boolean exists(final String key) {
-        return redisTemplate.hasKey(key);
-    }
-
-    /**
-     * 读取缓存
-     *
-     * @param key
-     * @return
-     */
-    public Object get(final String key) {
-        Object result = null;
-        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-        result = operations.get(key);
-        return result;
-    }
-
-    /**
-     * 写入缓存
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean set(final String key, Object value) {
-        boolean result = false;
-        try {
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-
-    /**
-     * 写入缓存
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean setList(final String key, Object value) {
-        boolean result = false;
-        try {
-            ListOperations<Serializable, Object> operations = redisTemplate.opsForList();
-            operations.rightPushIfPresent(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * 写入缓存
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean set(final String key, Object value, Long expireTime) {
-        boolean result = false;
-        try {
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+    @SuppressWarnings("unchecked")
+    @Bean
+    public RedisTemplate<String, String> redisTemplate(
+            RedisConnectionFactory factory) {
+        StringRedisTemplate template = new StringRedisTemplate(factory);
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.afterPropertiesSet();
+        return template;
     }
 }
 

@@ -1,9 +1,11 @@
 package com.bill.repository.user;
 
 import com.bill.domain.user.User;
-import org.springframework.cache.annotation.*;
-import org.springframework.data.repository.*;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by huangbin on 16-12-10.
@@ -11,22 +13,26 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-@CacheConfig(cacheNames = "usersCache")
+
 public interface UserRepository extends CrudRepository<User, Long>, PagingAndSortingRepository<User, Long> {
-    @Cacheable(value = "users")
-    Iterable<User> findAll();
 
 
     /**
-     * @param userName 根据用户名称查询
-     * @return
+     * 查询所有的用户信息
      */
-    @Cacheable(key = "#userName")
-    Iterable<User> findByUserName(String userName);
+
+    List<User> findAll();
+
 
     /**
-     * @param user 保存用戶信息
+     * @param id
      */
-    @CachePut(value = "user")
-    User save(User user);
+
+    User findById(Long id);
+
+    /**
+     * @param id 根据id删除
+     */
+
+    void delete(Long id);
 }

@@ -35,34 +35,31 @@
     </div>
 </div>
 <!-- /DATA TABLES -->
-<script type="text/javascript" src="js/datatables/media/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
-<script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
+#include("/templates/views/footer.vm")
 <script>
-
-
     var dataTableName = "#appListTable";
     jQuery(document).ready(function () {
-        $(dataTableName).bootgrid();
+        initBootGrid(dataTableName);
     });
-
-
     var selectedId = null;
     /**
      *生成app
      */
     function genApp() {
-        console.log("生成app--------------");
-        getSelectedId();
+        var appId = getSelectedId();
+        var url = "/app/genApp";
+        $.post(url, {appId: appId}, function (data) {
+            showTips(data);
 
 
+        });
     }
-
-
     function getSelectedId() {
-        var rows = $(dataTableName).bootgrid("getSelectRows");
-
-
-        console.log("rows-------------"+JSON.stringify(rows));
+        var rows = $(dataTableName).bootgrid("getSelectedRows");
+        console.log("rows-------------" + JSON.stringify(rows));
+        return rows[0];
     }
+
+
+
 </script>

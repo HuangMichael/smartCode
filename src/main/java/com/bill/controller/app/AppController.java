@@ -63,10 +63,10 @@ public class AppController extends BaseController {
      */
     @RequestMapping(value = "/genApp", method = RequestMethod.POST)
     @ResponseBody
-    public ReturnObject genApp() {
-
-
-        return commonDataService.getReturnType(true, "应用生成成功!", "应用生成失败!");
+    public ReturnObject genApp(@RequestParam Long appId) {
+        this.getLog().info("appId-------------------" + appId);
+        Boolean result = appService.genApp(appId);
+        return commonDataService.getReturnType(result, "应用生成成功!", "应用生成失败!");
     }
 
 

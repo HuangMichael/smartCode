@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "V_APP")
+@Table(name = "APP")
 @Data
 public class App {
     @Id
@@ -22,5 +22,7 @@ public class App {
     private String appDesc;
     @Column(name = "package_name")
     private String  packageName;
+    @Column(name = "status")
+    private String  status;
 
 }
