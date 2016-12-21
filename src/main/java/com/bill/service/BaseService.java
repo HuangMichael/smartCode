@@ -24,8 +24,6 @@ public class BaseService {
     protected List dataList;
 
 
-
-
     /**
      * @param searchPhrase
      * @param paramSize
@@ -90,6 +88,9 @@ public class BaseService {
 
 
     }
+
+
+
 
 
 }

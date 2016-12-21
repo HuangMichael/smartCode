@@ -18,6 +18,7 @@ import java.util.Map;
 @Data
 @EnableAutoConfiguration
 public class BaseController {
+
     Logger log = LoggerFactory.getLogger(this.getClass());
     private String mainObject = "";
     private Boolean viewOverride = false;
@@ -47,13 +48,6 @@ public class BaseController {
         log.info(this.getMainObject() + "-----this is login request");
         return "/views/login";
     }
-
-
-    /*@RequestMapping("/error")
-    private String error(ModelMap modelMap) {
-        log.info(this.getMainObject() +"-"+this.getClass().getDeclaredMethods()+"-----this is index request");
-        return "/views/error";
-    }*/
 
 
     /**

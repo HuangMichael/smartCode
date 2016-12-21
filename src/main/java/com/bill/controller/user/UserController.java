@@ -2,17 +2,23 @@ package com.bill.controller.user;
 
 import com.bill.controller.BaseController;
 import com.bill.domain.user.User;
+import com.bill.service.user.UserSearchService;
 import com.bill.service.user.UserService;
+import com.bill.utils.page.CommonDataService;
+import com.bill.utils.page.MyPage;
+import com.bill.utils.page.PageUtils;
+import com.bill.utils.page.ReturnObject;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -23,6 +29,13 @@ public class UserController extends BaseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserSearchService userSearchService;
+
+
+    @Autowired
+    CommonDataService commonDataService;
     String mainObject = "user";
 
     @Override
@@ -47,7 +60,6 @@ public class UserController extends BaseController {
         return "success";
     }
 
-
     /**
      * 根据用户id查询
      *
@@ -67,20 +79,35 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String delete(@PathVariable Long id) {
+    public ReturnObject delete(@PathVariable Long id) {
         userService.delete(id);
-        return "删除";
+        return commonDataService.getReturnType(userService.findById(id) != null, "用户信息删除成功!", "用户信息删除失败!");
     }
 
 
-
     /**
-     * @return
+     * @return 查询所有的用户信息
      */
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     @ResponseBody
     public List<User> findAll() {
-      return  userService.findAll();
+        return userService.findAll();
+    }
 
+
+    /**
+     * 分页查询
+     *
+     * @param current      当前页
+     * @param rowCount     每页条数
+     * @param searchPhrase 查询关键字
+     * @return
+     */
+    @RequestMapping(value = "/data", method = RequestMethod.POST)
+    @ResponseBody
+    public MyPage data(HttpServletRequest request, @RequestParam(value = "current", defaultValue = "0") int current, @RequestParam(value = "rowCount", defaultValue = "10") Long rowCount, @RequestParam(value = "searchPhrase", required = false) String searchPhrase) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Pageable pageable = new PageRequest(current - 1, rowCount.intValue(), super.getSort(parameterMap));
+        return new PageUtils().searchBySortService(userSearchService, searchPhrase, 2, current, rowCount, pageable);
     }
 }

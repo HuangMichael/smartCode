@@ -1,8 +1,8 @@
-package com.bill.service.resource;
+package com.bill.service.user;
 
 
-import com.bill.domain.resource.Resource;
-import com.bill.repository.resource.ResourceRepository;
+import com.bill.domain.user.User;
+import com.bill.repository.user.UserRepository;
 import com.bill.service.BaseService;
 import com.bill.utils.search.SortedSearchable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +12,22 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by huangbin on 2016/3/24.
- * 资源查询业务类
+ * 用户查询业务类
  */
 @Service
-public class ResourceSearchService extends BaseService implements SortedSearchable {
+public class UserSearchService extends BaseService implements SortedSearchable {
 
     @Autowired
-    ResourceRepository resourceRepository;
+    UserRepository userRepository;
 
 
     /**
      * @param searchPhrase
      * @return 根据多条件关键字进行查询
      */
-    public Iterable<Resource> findByConditions(String searchPhrase, int paramSize) {
+    public Iterable<User> findByConditions(String searchPhrase, int paramSize) {
         String array[] = super.assembleSearchArray(searchPhrase, paramSize);
-        return resourceRepository.findAll();
+        return userRepository.findAll();
     }
 
 
@@ -35,9 +35,9 @@ public class ResourceSearchService extends BaseService implements SortedSearchab
      * @param searchPhrase
      * @return 根据多条件关键字进行查询
      */
-    public Page<Resource> findByConditions(String searchPhrase, int paramSize, Pageable pageable) {
+    public Page<User> findByConditions(String searchPhrase, int paramSize, Pageable pageable) {
         String array[] = super.assembleSearchArray(searchPhrase, paramSize);
-        return resourceRepository.findAll(pageable);
+        return userRepository.findAll(pageable);
     }
 
 }

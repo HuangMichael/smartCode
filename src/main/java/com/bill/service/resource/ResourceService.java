@@ -6,6 +6,7 @@ import com.bill.service.BaseService;
 import com.bill.utils.constValue.CommonStateUtil;
 import com.bill.utils.search.SortedSearchable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,17 +45,6 @@ public class ResourceService extends BaseService {
      * @return 根据菜单级别查询资源信息
      */
     public Iterable<Resource> findMenus(Long level) {
-
         return resourceRepository.findByResourceLevelAndStatus(level, CommonStateUtil.STATUS_YES);
-    }
-
-
-    /**
-     * @param level 菜单级别
-     * @return 根据菜单级别查询资源信息
-     */
-    public Iterable<Resource> findAllMenus(Long level) {
-
-        return resourceRepository.findByResourceLevel(level);
     }
 }

@@ -3,6 +3,7 @@ package com.bill.utils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -17,16 +18,19 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 
 /**
- * redicache 工具类
+ * redis cache 工具类
  */
 @SuppressWarnings("unchecked")
 @Component
 public class RedisUtil extends CachingConfigurerSupport {
-    @SuppressWarnings("rawtypes")
+    @Autowired
+    RedisTemplate redisTemplate;
 
-
+    /**
+     * @return
+     */
     @Bean
-    public KeyGenerator billKeyGenerator(){
+    public KeyGenerator billKeyGenerator() {
         return new KeyGenerator() {
             @Override
             public Object generate(Object target, Method method, Object... params) {
@@ -42,11 +46,19 @@ public class RedisUtil extends CachingConfigurerSupport {
 
     }
 
+    /**
+     * @param redisTemplate
+     * @return
+     */
     @Bean
-    public CacheManager cacheManager( RedisTemplate redisTemplate) {
+    public CacheManager cacheManager(RedisTemplate redisTemplate) {
         return new RedisCacheManager(redisTemplate);
     }
 
+    /**
+     * @param factory
+     * @return
+     */
     @SuppressWarnings("unchecked")
     @Bean
     public RedisTemplate<String, String> redisTemplate(

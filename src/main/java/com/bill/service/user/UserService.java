@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +21,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     /**
      * @return 查询所有的用户信息
      */
-    @Cacheable(value = "user", key = "'users'")
+    @Cacheable(value = "users", key = "'users'")
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -33,16 +37,23 @@ public class UserService {
      * @param id
      * @return 根据id查询
      */
-    @CachePut(value = "user", key = "'id_'+#p0")
+    @Cacheable(value = "user", key = "'user_'+#p0")
     public User findById(Long id) {
         return userRepository.findById(id);
     }
-    @CachePut(value = "user", key = "'id_'+#user.id")
+
+    /**
+     * @param user 保存用户信息
+     */
+    @CacheEvict(value = {"users"}, key = "'user_'+#user.id", allEntries = true)
     public void save(User user) {
         userRepository.save(user);
     }
 
-    @CacheEvict(value = "user", key = "'id_'+#p0")
+    /**
+     * @param id 删除用户信息
+     */
+    @CacheEvict(value = {"users"}, key = "'user_'+#p0", allEntries = true)
     public void delete(Long id) {
         userRepository.delete(id);
     }
