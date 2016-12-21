@@ -659,7 +659,7 @@
                                     <span class="date-range pull-right">
 											<div class="btn-group">
 												<a class="js_update btn btn-default">今天</a>
-												<a class="js_update btn btn-default" >上周</a>
+												<a class="js_update btn btn-default">上周</a>
 												<a class="js_update btn btn-default hidden-xs">上月</a>
 												
 												<a id="reportrange" class="btn reportrange">
@@ -685,11 +685,11 @@
                                     <div class="dashbox panel panel-default">
                                         <div class="panel-body">
                                             <div class="panel-left red">
-                                                <i class="fa fa-instagram fa-3x"></i>
+                                                <i class="fa fa-android fa-3x"></i>
                                             </div>
                                             <div class="panel-right">
-                                                <div class="number">6718</div>
-                                                <div class="title">Likes</div>
+                                                <div class="number">18</div>
+                                                <div class="title">已发布应用</div>
                                                 <span class="label label-success">
 													26% <i class="fa fa-arrow-up"></i>
 												</span>
@@ -701,11 +701,11 @@
                                     <div class="dashbox panel panel-default">
                                         <div class="panel-body">
                                             <div class="panel-left blue">
-                                                <i class="fa fa-twitter fa-3x"></i>
+                                                <i class="fa fa-user fa-3x"></i>
                                             </div>
                                             <div class="panel-right">
-                                                <div class="number">2724</div>
-                                                <div class="title">Followers</div>
+                                                <div class="number">12</div>
+                                                <div class="title">当前用户数</div>
                                                 <span class="label label-warning">
 													5% <i class="fa fa-arrow-down"></i>
 												</span>
@@ -719,22 +719,22 @@
                                     <div class="quick-pie panel panel-default">
                                         <div class="panel-body">
                                             <div class="col-md-4 text-center">
-                                                <div id="dash_pie_1" class="piechart" data-percent="59">
+                                                <div id="dash_pie_1" class="piechart" data-percent="69">
                                                     <span class="percent"></span>
                                                 </div>
-                                                <a href="#" class="title">New Visitors <i class="fa fa-angle-right"></i></a>
+                                                <a href="#" class="title">维修及时率 <i class="fa fa-angle-right"></i></a>
                                             </div>
                                             <div class="col-md-4 text-center">
-                                                <div id="dash_pie_2" class="piechart" data-percent="73">
+                                                <div id="dash_pie_2" class="piechart" data-percent="23">
                                                     <span class="percent"></span>
                                                 </div>
-                                                <a href="#" class="title">Bounce Rate <i class="fa fa-angle-right"></i></a>
+                                                <a href="#" class="title">故障重现率<i class="fa fa-angle-right"></i></a>
                                             </div>
                                             <div class="col-md-4 text-center">
                                                 <div id="dash_pie_3" class="piechart" data-percent="90">
                                                     <span class="percent"></span>
                                                 </div>
-                                                <a href="#" class="title">Brand Popularity <i
+                                                <a href="#" class="title">用户好评率<i
                                                         class="fa fa-angle-right"></i></a>
                                             </div>
                                         </div>
@@ -748,7 +748,7 @@
                         <div class="col-md-6">
                             <div class="box solid grey">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-dollar"></i>Revenue</h4>
+                                    <h4><i class="fa fa-dollar"></i>销售额年度统计</h4>
                                     <div class="tools">
 											<span class="label label-danger">
 												20% <i class="fa fa-arrow-up"></i>
@@ -782,7 +782,7 @@
                             <div class="box border green">
                                 <div class="box-title">
                                     <h4><i class="fa fa-bars"></i> <span
-                                            class="hidden-inline-mobile">销售统计</span></h4>
+                                            class="hidden-inline-mobile">产品销售统计</span></h4>
                                 </div>
                                 <div class="box-body">
                                     <div class="tabbable header-tabs">

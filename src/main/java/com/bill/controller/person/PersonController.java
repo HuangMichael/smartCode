@@ -3,6 +3,7 @@ package com.bill.controller.person;
 import com.bill.controller.BaseController;
 import com.bill.domain.person.Person;
 import com.bill.domain.user.User;
+import com.bill.service.person.PersonSearchService;
 import com.bill.service.person.PersonService;
 import com.bill.service.user.UserSearchService;
 import com.bill.service.user.UserService;
@@ -23,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * 人员控制器类
+ */
 @Controller
 @EnableAutoConfiguration
 @Data
@@ -33,7 +37,7 @@ public class PersonController extends BaseController {
     PersonService personService;
 
     @Autowired
-    UserSearchService userSearchService;
+    PersonSearchService personSearchService;
 
 
     @Autowired
@@ -107,7 +111,7 @@ public class PersonController extends BaseController {
     public MyPage data(HttpServletRequest request, @RequestParam(value = "current", defaultValue = "0") int current, @RequestParam(value = "rowCount", defaultValue = "10") Long rowCount, @RequestParam(value = "searchPhrase", required = false) String searchPhrase) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         Pageable pageable = new PageRequest(current - 1, rowCount.intValue(), super.getSort(parameterMap));
-        return new PageUtils().searchBySortService(userSearchService, searchPhrase, 2, current, rowCount, pageable);
+        return new PageUtils().searchBySortService(personSearchService, searchPhrase, 2, current, rowCount, pageable);
     }
 
 }

@@ -4,36 +4,28 @@
         <!-- BOX -->
         <div class="box border">
             <div class="box-title">
-                <h4><i class="fa fa-table"></i>资源信息</h4>
+                <h4><i class="fa fa-table"></i>人员信息</h4>
                 <div class="tools hidden-xs">
-                    <a href="#box-config" data-toggle="modal" class="config">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                    <a href="javascript:;" class="reload">
-                        <i class="fa fa-refresh"></i>
-                    </a>
-                    <a href="javascript:;" class="collapse">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a href="javascript:;" class="remove">
-                        <i class="fa fa-times"></i>
-                    </a>
                 </div>
             </div>
             <div class="box-body">
-                <table id="lineListTable" class=" table table-striped table-bordered table-hover" data-toggle="bootgrid"
+                <table id="personListTable" class=" table table-striped table-bordered table-hover"
+                       data-toggle="bootgrid"
                        data-selection="true" data-multi-select="true" data-row-select="true" data-keep-selection="true"
                        data-ajax="true"
-                       data-url="/resource/data">
+                       data-url="/person/data">
                     <thead>
                     <thead>
                     <tr>
                         <th data-column-id="id" data-width="6%">序号</th>
-                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false" data-width="6%">ID</th>
-                        <th data-column-id="resourceName" data-width="20%">资源名称</th>
-                        <th data-column-id="resourceDesc" data-width="20%">资源描述</th>
-                        <th data-column-id="resourceLevel" data-width="10%">资源级别</th>
-                        <th data-column-id="resourceUrl" data-width="10%">资源级别</th>
+                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false"
+                            data-width="6%">ID
+                        </th>
+                        <th data-column-id="personName" data-width="20%">人员名称</th>
+                        <th data-column-id="personDesc" data-width="20%">人员描述</th>
+                        <th data-column-id="telephone" data-width="10%">电话</th>
+                        <th data-column-id="email" data-width="10%">电子邮箱</th>
+                        <th data-column-id="status" data-width="10%">状态</th>
                     </tr>
                     </thead>
                 </table>
@@ -48,6 +40,6 @@
 <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
 <script>
     jQuery(document).ready(function () {
-        $("#lineListTable").bootgrid();
+        $("#personListTable").bootgrid();
     });
 </script>
