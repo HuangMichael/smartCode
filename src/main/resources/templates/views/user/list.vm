@@ -1,27 +1,103 @@
 <div class="separator"></div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- BOX -->
-        <div class="box border">
-            <div class="box-title">
-                <h4><i class="fa fa-table"></i>用户信息</h4>
-            </div>
-            <div class="box-body">
-                <table id="userListTable" class=" table table-striped table-bordered table-hover" data-toggle="bootgrid"
-                       data-selection="true" data-multi-select="true" data-row-select="true" data-keep-selection="true"
-                       data-ajax="true"
-                       data-url="/user/data">
-                    <thead>
-                    <tr>
-                        <th data-column-id="id" data-width="6%">序号</th>
-                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-visible="false"
-                            data-width="6%">ID
-                        </th>
-                        <th data-column-id="userName" data-width="20%">用户名称</th>
-                        <th data-column-id="status" data-width="20%">用户状态</th>
-                    </tr>
-                    </thead>
-                </table>
+
+<!-- BOX -->
+<div class="box border">
+    <div class="box-title">
+        <h4><i class="fa fa-table"></i>用户信息</h4>
+    </div>
+    <div class="box-body" style="padding: 5px 20px 5px 5px">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm myNavBtn active" onclick="add()"><i class="fa fa-plus"></i>新建记录
+            </button>
+            <button type="button" class="btn btn-sm myNavBtn active" onclick="edit()"><i class="fa fa-edit"></i>编辑记录
+            </button>
+            <button type="button" class="btn btn-sm myNavBtn active" onclick="save()"><i class="fa fa-save"></i>保存记录
+            </button>
+            <button type="button" class="btn btn-sm myNavBtn active" onclick="del()"><i class="fa fa-ruble"></i>删除记录
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#listTab" data-toggle="tab">
+                    <i class="fa fa-home" id="eq"></i>用户信息</a>
+                </li>
+
+                <li><a href="#detailTab" data-toggle="tab">
+                    <i class="fa fa-flag" id="eqDetail"></i>用户详细信息</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="listTab">
+                    <table id="userListTable" class=" table table-striped table-bordered table-hover"
+                           data-toggle="bootgrid"
+                           data-selection="true" data-multi-select="true" data-row-select="true"
+                           data-keep-selection="true"
+                           data-ajax="true"
+                           data-url="/user/data">
+                        <thead>
+                        <tr>
+                            <th data-column-id="id" data-width="6%">序号</th>
+                            <th data-column-id="id" data-type="numeric" data-identifier="true"
+                                data-visible="false"
+                                data-width="6%">ID
+                            </th>
+                            <th data-column-id="userName" data-width="20%">用户名称</th>
+                            <th data-column-id="status" data-width="20%">用户状态</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade in " id="detailTab">
+                    <div class="divide-10"></div>
+                    <form class="form-horizontal myform" role="form" id="detailForm">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" for="eqCode">用户名称</label>
+                            <div class="col-md-3">
+                                <input class="form-control" id="eqCode" type="text" name="userName"
+                                       v-model="user.userName"/>
+                            </div>
+                            <label for="description" class="col-md-1 control-label">用户昵称</label>
+                            <div class="col-md-3">
+                                <input class="form-control" id="nickName" type="text" name="nickName"
+                                       v-model="user.nickName"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="locations_id" class="col-md-1 control-label">关联人员</label>
+                            <div class="col-md-3">
+                                <select v-model="user.person.id" class="form-control" id="person_id" name="person.id"
+                                        required style="width:100%" required>
+                                    <template v-for="option in personList">
+                                        <option :value="option.id" v-if="option.id == user.person.id"
+                                                selected>
+                                            {{option.personName }}
+                                        </option>
+                                        <option :value="option.id" v-else>
+                                            {{option.personName }}
+                                        </option>
+                                    </template>
+                                </select>
+                            </div>
+                            <label for="locations_id" class="col-md-1 control-label">用户状态</label>
+                            <div class="col-md-3">
+                                <select v-model="equipment.locations.id" class="form-control" id="locations_id"
+                                        name="locations.id"
+                                        required style="width:100%" required>
+                                    <template v-for="option in locs">
+                                        <option :value="option.id" v-if="option.id == equipment.locations.id"
+                                                selected>
+                                            {{option.locName }}
+                                        </option>
+                                        <option :value="option.id" v-else>
+                                            {{option.locName }}
+                                        </option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
         <!-- /BOX -->
@@ -34,5 +110,44 @@
 <script>
     jQuery(document).ready(function () {
         $("#userListTable").bootgrid();
+
+       // initSelect();
+        //请求人员信息
+        var url = "/person/findAll";
+        var personList = getData(url);
+        var user = findById(2);
+        var vdm = new Vue({
+            el: "#detailForm",
+            data: {
+                personList: personList,
+                user: user
+            }
+        });
     });
+
+
+    /**
+     * @param url ajax请求
+     */
+    function getData(url) {
+        var obj = null;
+        $.getJSON(url, function (data) {
+            obj = data;
+        })
+        return obj;
+    }
+    /**
+     *
+     * @param objName
+     * @param id
+     * @returns {*}
+     */
+    function findById(objName, id) {
+        var object = null;
+        var url = objName + "/" + id;
+        $.getJSON(url, function (data) {
+            object = data;
+        });
+        return object;
+    }
 </script>

@@ -108,10 +108,6 @@ function initBootGrid(dataTableName) {
     });
 
 
-
-
-
-
 }
 
 /**
@@ -142,4 +138,32 @@ function showTips(data) {
             });
         }, 6000);
     }, 2000);
+}
+
+
+function add() {
+
+
+    console.log("add --------------------");
+}
+
+
+function edit() {
+
+
+    console.log("edit --------------------");
+}
+
+
+function save() {
+
+
+    console.log("save --------------------");
+}
+
+
+function del() {
+
+
+    console.log("del --------------------");
 }

@@ -50,4 +50,5 @@
 <!-- CUSTOM SCRIPT -->
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/vue/vue.js"></script>
+<script type="text/javascript" src="js/select2/select2.min.js"></script>
 <script type="text/javascript" src="js/app/common-crud.js"></script>

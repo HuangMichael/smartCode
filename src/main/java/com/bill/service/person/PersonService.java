@@ -4,6 +4,8 @@ import com.bill.domain.person.Person;
 import com.bill.repository.person.PersonRepository;
 import com.bill.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class PersonService extends BaseService {
     /**
      * @param id 人员id
      */
+    @CacheEvict(value = {"personList"}, allEntries = true, key = "'personList'")
     public void delete(Long id) {
         personRepository.delete(id);
     }
@@ -49,6 +52,7 @@ public class PersonService extends BaseService {
     /**
      * @return 查询所有的用户信息
      */
+    @Cacheable(value = {"personList"}, key = "'personList'")
     public Iterable<Person> findAll() {
         return personRepository.findAll();
     }
