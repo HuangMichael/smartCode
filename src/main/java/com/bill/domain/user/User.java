@@ -1,6 +1,5 @@
 package com.bill.domain.user;
 
-import com.bill.domain.person.Person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * Created by huangbin on 16-12-10.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 public class User implements Serializable {
 
@@ -27,8 +26,8 @@ public class User implements Serializable {
     private String password;
     @Column(name = "status", nullable = false)
     private String status;
-/*
-    @OneToOne
+
+   /* @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;*/
 }

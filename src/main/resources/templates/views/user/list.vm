@@ -21,11 +21,11 @@
         <div class="tabbable">
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#listTab" data-toggle="tab">
-                    <i class="fa fa-home" id="eq"></i>用户信息</a>
+                    <i class="fa fa-home"></i>用户信息</a>
                 </li>
 
                 <li><a href="#detailTab" data-toggle="tab">
-                    <i class="fa fa-flag" id="eqDetail"></i>用户详细信息</a>
+                    <i class="fa fa-flag"></i>用户详细信息</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -67,12 +67,12 @@
                         <div class="form-group">
                             <label for="locations_id" class="col-md-1 control-label">关联人员</label>
                             <div class="col-md-3">
-                                <select v-model="user.person.id" class="form-control" id="person_id" name="person.id"
+                                <select v-model="user.person.id" id="person_id" name="person.id"
                                         required style="width:100%" required>
                                     <template v-for="option in personList">
                                         <option :value="option.id" v-if="option.id == user.person.id"
                                                 selected>
-                                            {{option.personName }}
+                                            {{option.personName}}
                                         </option>
                                         <option :value="option.id" v-else>
                                             {{option.personName }}
@@ -80,18 +80,17 @@
                                     </template>
                                 </select>
                             </div>
-                            <label for="locations_id" class="col-md-1 control-label">用户状态</label>
+                            <label for="status" class="col-md-1 control-label">用户状态</label>
                             <div class="col-md-3">
-                                <select v-model="equipment.locations.id" class="form-control" id="locations_id"
-                                        name="locations.id"
+                                <select v-model="user.status" id="status" name="status"
                                         required style="width:100%" required>
-                                    <template v-for="option in locs">
-                                        <option :value="option.id" v-if="option.id == equipment.locations.id"
+                                    <template v-for="option in statusList">
+                                        <option :value="option.value" v-if="option.value == user.status"
                                                 selected>
-                                            {{option.locName }}
+                                            {{option.text }}
                                         </option>
-                                        <option :value="option.id" v-else>
-                                            {{option.locName }}
+                                        <option :value="option.value" v-else>
+                                            {{option.text }}
                                         </option>
                                     </template>
                                 </select>
@@ -109,20 +108,34 @@
 <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
 <script>
     jQuery(document).ready(function () {
-        $("#userListTable").bootgrid();
 
-       // initSelect();
-        //请求人员信息
+        jQuery.ajaxSettings.async = false;
+        // $("#userListTable").bootgrid();
+
+        var dataTableName = "#userListTable";
+        initBootGrid(dataTableName);
+
+
+        console.log("--------------");
         var url = "/person/findAll";
         var personList = getData(url);
-        var user = findById(2);
+        var statusList = [{value: "1", text: "启用"}, {value: "0", text: "禁用"}];
+        var user = findById("user", 12);
         var vdm = new Vue({
             el: "#detailForm",
             data: {
                 personList: personList,
+                statusList:statusList,
                 user: user
             }
         });
+
+        initSelect();
+
+
+        /*  // initSelect();
+          //请求人员信息
+       */
     });
 
 

@@ -10,7 +10,11 @@ var pointer = null;
 var dataTableName = "";
 var ids = [];//所有的ID的集合
 var docName = "";
-var formTab = null;
+
+var listTab = $('#myTab li:eq(0) a');
+//数据列表
+var formTab = $('#myTab li:eq(1) a');
+
 var locs = [];
 var eqs = [];
 var stations = [];
@@ -69,7 +73,6 @@ function initSelect() {
 
     $("select").select2({
         theme: "bootstrap",
-        tags: "true",
         placeholder: "请选择...",
         allowClear: true
     });
