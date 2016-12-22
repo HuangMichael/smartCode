@@ -114,4 +114,14 @@ public class PersonController extends BaseController {
         return new PageUtils().searchBySortService(personSearchService, searchPhrase, 2, current, rowCount, pageable);
     }
 
+
+    /**
+     * @return 查询所有的id
+     */
+    @RequestMapping(value = "/findAllId", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Long> findAllId() {
+        return personSearchService.findAllId();
+    }
+
 }

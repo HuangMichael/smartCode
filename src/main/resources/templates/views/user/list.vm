@@ -113,19 +113,25 @@
         // $("#userListTable").bootgrid();
 
         var dataTableName = "#userListTable";
+
+        pointer = 0;
         initBootGrid(dataTableName);
 
 
-        console.log("--------------");
+        //查询所有的id
+
+        selectedIds = findAllId("user");
+
+        console.info("id=============="+selectedIds[pointer]);
         var url = "/person/findAll";
         var personList = getData(url);
         var statusList = [{value: "1", text: "启用"}, {value: "0", text: "禁用"}];
-        var user = findById("user", 12);
+        var user = findById("user", selectedIds[pointer]);
         var vdm = new Vue({
             el: "#detailForm",
             data: {
                 personList: personList,
-                statusList:statusList,
+                statusList: statusList,
                 user: user
             }
         });
@@ -162,5 +168,20 @@
             object = data;
         });
         return object;
+    }
+
+
+    /**
+     * 查询所有的id
+     * @param objName 实体名称小写
+     * @return {*} 返回id集合
+     */
+    function findAllId(objName) {
+        var idList = null;
+        var url = objName + "/findAllId";
+        $.getJSON(url, function (data) {
+            idList = data;
+        });
+        return idList;
     }
 </script>

@@ -27,7 +27,7 @@ public class PersonService extends BaseService {
      * @return 查询人员信息
      */
     public Person findById(Long id) {
-        return personRepository.findOne(id);
+        return personRepository.findById(id);
     }
 
 

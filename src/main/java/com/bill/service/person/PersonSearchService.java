@@ -9,15 +9,19 @@ import com.bill.service.BaseService;
 import com.bill.utils.search.SortedSearchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by huangbin on 2016/3/24.
  * 人员查询业务类
  */
 @Service
+@CacheConfig(cacheNames="personIdList")
 public class PersonSearchService extends BaseService implements SortedSearchable {
 
     @Autowired
@@ -41,6 +45,16 @@ public class PersonSearchService extends BaseService implements SortedSearchable
     public Page<Person> findByConditions(String searchPhrase, int paramSize, Pageable pageable) {
         String array[] = super.assembleSearchArray(searchPhrase, paramSize);
         return personRepository.findAll(pageable);
+    }
+
+
+    /**
+     * @return 查询所有的id集合
+     */
+    @Cacheable(value = "personIdList", key = "'personIdList'")
+    public List<Long> findAllId() {
+        return personRepository.findAllId();
+
     }
 
 }

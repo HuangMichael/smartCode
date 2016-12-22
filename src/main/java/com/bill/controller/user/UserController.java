@@ -110,4 +110,13 @@ public class UserController extends BaseController {
         Pageable pageable = new PageRequest(current - 1, rowCount.intValue(), super.getSort(parameterMap));
         return new PageUtils().searchBySortService(userSearchService, searchPhrase, 2, current, rowCount, pageable);
     }
+
+    /**
+     * @return 查询所有的id
+     */
+    @RequestMapping(value = "/findAllId", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Long> findAllId() {
+        return userSearchService.findAllId();
+    }
 }
